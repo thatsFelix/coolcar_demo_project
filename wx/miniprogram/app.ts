@@ -1,14 +1,14 @@
 import { IAppOption } from "./appoption"
 
 let resolveUserInfo: (value: WechatMiniprogram.UserInfo | PromiseLike<WechatMiniprogram.UserInfo>) => void
-let rejectUserInfo: (reason?: any) => void
+// let rejectUserInfo: (reason?: any) => void
 
 // app.ts
 App<IAppOption>({
   globalData: {
-    userInfo: new Promise((resolve, reject) => {
+    userInfo: new Promise((resolve, _) => {
       resolveUserInfo = resolve
-      rejectUserInfo = reject
+      // rejectUserInfo = reject
     })
   },
 
