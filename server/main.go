@@ -31,7 +31,13 @@ func startGRPCGateWay() {
 	c, cancel := context.WithCancel(c)
 	defer cancel()
 
-	mux := runtime.NewServeMux()
+	jsonpb := &runtime.JSONPb{}
+	// 设置枚举使用枚举值而不是字符串
+	jsonpb.UseEnumNumbers = true
+	// 使用原始名称(使用下划线连接不转驼峰)
+	jsonpb.UseProtoNames = true
+
+	mux := runtime.NewServeMux(runtime.WithMarshalerOption(runtime.MIMEWildcard, jsonpb))
 
 	err := trippb.RegisterTripServiceHandlerFromEndpoint(
 		c,
