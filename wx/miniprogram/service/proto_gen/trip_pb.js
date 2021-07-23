@@ -1,6 +1,4 @@
 // Common aliases
-import * as $protobuf from "protobufjs";
-
 const $util = $protobuf.util;
 
 // Exported root namespace
