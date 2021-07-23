@@ -22,6 +22,7 @@ App<IAppOption>({
           data: { 
             code: res.code,
           } as auth.v1.ILoginRequest,
+
           success: res => {
             const loginResp: auth.v1.ILoginResponse = auth.v1.LoginResponse.fromObject(camelcaseKeys(res.data as object))
             console.log(loginResp);
