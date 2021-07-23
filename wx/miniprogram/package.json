@@ -9,7 +9,10 @@
   "keywords": [],
   "author": "",
   "license": "",
-  "dependencies": {},
+  "dependencies": {
+    "camelcase-keys": "^7.0.0",
+    "protobufjs": "^6.11.2"
+  },
   "devDependencies": {
     "miniprogram-api-typings": "^2.8.3-1",
     "typescript": "^3.3.3333"
