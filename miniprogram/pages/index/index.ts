@@ -1,9 +1,9 @@
 // index.ts
 
-import { IAppOption } from "../../appoption"
+// import { IAppOption } from "../../appoption"
 
 // 获取应用实例
-const app = getApp<IAppOption>()
+// const app = getApp<IAppOption>()
 
 Page({
   data: {

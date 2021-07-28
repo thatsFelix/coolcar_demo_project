@@ -10,7 +10,7 @@
   "author": "",
   "license": "",
   "dependencies": {
-    "camelcase-keys": "^7.0.0",
+    "camelcase-keys": "6.2.2",
     "protobufjs": "^6.11.2"
   },
   "devDependencies": {
