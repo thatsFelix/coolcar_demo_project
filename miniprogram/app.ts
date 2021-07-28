@@ -3,16 +3,19 @@ import { IAppOption } from "./appoption"
 import { auth } from "./service/proto_gen/auth/auth_pb"
 import { getSetting, getUserInfo } from "./utils/util"
 
+let resolveUserInfo: (value: WechatMiniprogram.UserInfo | PromiseLike<WechatMiniprogram.UserInfo>) => void
+let rejectUserInfo: (reason?: any) => void
+
 // app.ts
 App<IAppOption>({
-  globalData: {}, 
+  globalData: {
+    userInfo: new Promise((resolve, reject) => {
+      resolveUserInfo = resolve
+      rejectUserInfo = reject
+    })
+  }, 
   onLaunch() {
-    console.log("onLaunch function invoked")
-    // 展示本地存储能力
-    const logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
-
+    // try to get userInfo
     getSetting()
       .then(res => {
         if (res.authSetting['scope.userInfo']) {
@@ -20,19 +23,20 @@ App<IAppOption>({
         }
         return Promise.resolve(undefined)
       })
-      .then(res => { 
+      .then(res => {
         if (!res) {
           return
-        } 
-        
-        this.globalData.userInfo = res.userInfo
-
-        // 通知页面我获得了用户信息
-        if (this.userInfoReadyCallback) {
-          this.userInfoReadyCallback(res)
         }
-        
+
+        // 通知页面程序已经获得了用户信息
+        resolveUserInfo(res.userInfo)
       })
+      .catch(rejectUserInfo)
+
+    // 展示本地存储能力
+    const logs = wx.getStorageSync('logs') || []
+    logs.unshift(Date.now())
+    wx.setStorageSync('logs', logs)
 
     // 登录
     wx.login({
@@ -55,5 +59,9 @@ App<IAppOption>({
         })
       },
     })
+  },
+
+  resolveUserInfo(userInfo: WechatMiniprogram.UserInfo) {
+    resolveUserInfo(userInfo)
   },
 })
