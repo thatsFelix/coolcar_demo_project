@@ -30,8 +30,15 @@ func (s *Service) Login(c context.Context, req *authpb.LoginRequest) (*authpb.Lo
 	if err != nil {
 		return nil, status.Errorf(codes.Unavailable, "Can not resolve open id", err)
 	}
+
+	accountID, err := s.Mongo.ResolveAccount(c, openID)
+	if err != nil {
+		s.Logger.Error("can not resolve open id", zap.Error(err))
+		return nil, status.Errorf(codes.Internal, "")
+	}
+
 	return &authpb.LoginResponse{
-		AccessToken: "Token for open id" + openID,
+		AccessToken: "Token for open id" + accountID,
 		ExpiresIn:   7200,
 	}, nil
 }
