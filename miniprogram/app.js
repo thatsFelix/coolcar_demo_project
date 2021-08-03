@@ -45,7 +45,7 @@ App({
                     },
                     fail: console.error,
                 });
-            },
+            },  
         });
     },
     resolveUserInfo(userInfo) {
