@@ -33,7 +33,7 @@ func main() {
 	mongoClient, err := mongo.Connect(c, options.Client().ApplyURI("mongodb://root:root@47.115.55.129:27017/coolcar?authSource=admin&readPreference=primary&appname=mongodb-vscode%200.6.0&directConnection=true&ssl=false"))
 
 	if err != nil {
-		logger.Fatal("can not connect mongodb")
+		logger.Fatal("can not connect mongodb", zap.Error(err))
 	}
 
 	s := grpc.NewServer()

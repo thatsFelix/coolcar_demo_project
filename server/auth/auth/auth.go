@@ -31,7 +31,7 @@ func (s *Service) Login(c context.Context, req *authpb.LoginRequest) (*authpb.Lo
 		return nil, status.Errorf(codes.Unavailable, "Can not resolve open id", err)
 	}
 
-	accountID, err := s.Mongo.ResolveAccount(c, openID)
+	accountID, err := s.Mongo.ResolveAccountID(c, openID)
 	if err != nil {
 		s.Logger.Error("can not resolve open id", zap.Error(err))
 		return nil, status.Errorf(codes.Internal, "")

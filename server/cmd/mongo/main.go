@@ -12,17 +12,40 @@ import (
 
 func main() {
 	c := context.Background()
-	db, err := mongo.Connect(c, options.Client().ApplyURI("mongodb://root:root@47.115.55.129:27017/coolcar?authSource=admin&readPreference=primary&appname=mongodb-vscode%200.6.0&directConnection=true&ssl=false"))
+	mc, err := mongo.Connect(c, options.Client().ApplyURI("mongodb://root:root@47.115.55.129:27017/coolcar?authSource=admin&readPreference=primary&appname=mongodb-vscode%200.6.0&directConnection=true&ssl=false"))
 	if err != nil {
 		fmt.Printf("mongo.Connect err: %v", err)
 		return
 	}
 
-	col := db.Database("coolcar").Collection("account")
+	col := mc.Database("coolcar").Collection("account")
+
 	findRows(c, col)
 }
 
 func findRows(c context.Context, col *mongo.Collection) {
+	cur, err := col.Find(c, bson.M{})
+	if err != nil {
+		fmt.Printf("col.Find err: %v", err)
+		return
+	}
+
+	var row struct {
+		ID     primitive.ObjectID `bson:"_id"`
+		OpenID string             `bson:"open_id"`
+	}
+
+	for cur.Next(c) {
+		err := cur.Decode(&row)
+		if err != nil {
+			fmt.Printf("res.Decode err: %v", err)
+			return
+		}
+		fmt.Printf("%+v \n", row)
+	}
+}
+
+func findRow(c context.Context, col *mongo.Collection) {
 	res := col.FindOne(c, bson.M{
 		"open_id": "123",
 	})
@@ -42,10 +65,10 @@ func findRows(c context.Context, col *mongo.Collection) {
 func insertRows(c context.Context, col *mongo.Collection) {
 	res, err := col.InsertMany(c, []interface{}{
 		bson.M{
-			"open_id": "123",
+			"open_id": "111",
 		},
 		bson.M{
-			"open_id": "456",
+			"open_id": "222",
 		},
 	})
 
