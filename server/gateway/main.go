@@ -9,6 +9,7 @@ import (
 	"google.golang.org/grpc"
 
 	authpb "coolcar/auth/api/gen/v1"
+	rentalpb "coolcar/rental/api/gen/v1"
 )
 
 func main() {
@@ -25,6 +26,12 @@ func main() {
 	mux := runtime.NewServeMux(runtime.WithMarshalerOption(runtime.MIMEWildcard, jsonpb))
 
 	err := authpb.RegisterAuthServiceHandlerFromEndpoint(c, mux, ":8081", []grpc.DialOption{grpc.WithInsecure()})
+
+	if err != nil {
+		log.Fatalf("Can not register auth service: %v", err)
+	}
+
+	err = rentalpb.RegisterTripServiceHandlerFromEndpoint(c, mux, ":8082", []grpc.DialOption{grpc.WithInsecure()})
 
 	if err != nil {
 		log.Fatalf("Can not register auth service: %v", err)

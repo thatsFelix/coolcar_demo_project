@@ -1,3 +1,5 @@
 node_modules
 miniprogram_npm
 miniprogram/**/*.js
+
+private.key

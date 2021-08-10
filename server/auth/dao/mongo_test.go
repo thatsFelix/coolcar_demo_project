@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	mongotesting "coolcar/shared/testing"
+	mongotesting "coolcar/shared/mongo/testing"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
